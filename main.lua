@@ -11,6 +11,8 @@ require("menu")
 WIDTH = 300
 HEIGHT = 100
 SCALE = 3
+local FIT = os.getenv("IYFCT_FIT") ~= nil
+local OFFX, OFFY = 0, 0
 
 bgcolor = {236/255,243/255,201/255,1}
 darkcolor = {2/255,9/255,4/255,1}
@@ -163,6 +165,10 @@ function updateGame(dt)
 end
 
 function love.draw()
+	if FIT then
+		love.graphics.setScissor(OFFX, OFFY, math.ceil(WIDTH*SCALE), math.ceil(HEIGHT*SCALE))
+		love.graphics.translate(OFFX, OFFY)
+	end
 	love.graphics.scale(SCALE,SCALE)
 	love.graphics.setColor(1,1,1,1)
 	if gamestate == 0 then
@@ -302,6 +308,13 @@ function love.keypressed(key,scancode)
 end
 
 function updateScale()
+	if FIT then
+		love.window.setMode(0, 0, {fullscreen=true, fullscreentype="desktop"})
+		local w, h = love.graphics.getDimensions()
+		SCALE = math.min(w/WIDTH, h/HEIGHT)
+		OFFX, OFFY = math.floor((w - WIDTH*SCALE)/2), math.floor((h - HEIGHT*SCALE)/2)
+		return
+	end
 	SCRNWIDTH = WIDTH*SCALE
 	SCRNHEIGHT = HEIGHT*SCALE
 	love.window.setMode(SCRNWIDTH,SCRNHEIGHT,{fullscreen=false})
