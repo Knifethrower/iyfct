@@ -167,9 +167,8 @@ end
 function love.draw()
 	if FIT then
 		love.graphics.setScissor()
-		love.graphics.clear(0,0,0,1)
-		love.graphics.setScissor(OFFX, OFFY, math.ceil(WIDTH*SCALE), math.ceil(HEIGHT*SCALE))
 		love.graphics.clear(love.graphics.getBackgroundColor())
+		love.graphics.setScissor(OFFX, OFFY, math.ceil(WIDTH*SCALE), math.ceil(HEIGHT*SCALE))
 		love.graphics.translate(OFFX, OFFY)
 	end
 	love.graphics.scale(SCALE,SCALE)
